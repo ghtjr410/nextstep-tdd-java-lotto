@@ -1,7 +1,7 @@
 package caculator.domain;
 
-public record Number(int value) {
-    public Number(String input) {
+public record Operand(int value) {
+    public Operand(String input) {
         this(Integer.parseInt(input));
     }
 }
