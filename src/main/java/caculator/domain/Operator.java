@@ -34,6 +34,10 @@ public enum Operator {
         this.symbol = symbol;
     }
 
+    public Operand calculate(Operand left, Operand right) {
+        return new Operand(calculate(left.value(), right.value()));
+    }
+
     public abstract int calculate(int left, int right);
 
     public static Operator from(String input) {

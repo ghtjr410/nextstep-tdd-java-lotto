@@ -14,22 +14,22 @@ import org.junit.jupiter.params.provider.ValueSource;
 class OperatorTest {
 
     @Test
-    void calculate_덧셈() {
+    void calculate_덧셈_연산결과반환() {
         assertThat(Operator.PLUS.calculate(4, 2)).isEqualTo(6);
     }
 
     @Test
-    void calculate_뺄셈() {
+    void calculate_뺄셈_연산결과반환() {
         assertThat(Operator.MINUS.calculate(4, 2)).isEqualTo(2);
     }
 
     @Test
-    void calculate_곱셈() {
+    void calculate_곱셈_연산결과반환() {
         assertThat(Operator.MULTIPLY.calculate(4, 2)).isEqualTo(8);
     }
 
     @Test
-    void calculate_나눗셈() {
+    void calculate_나눗셈_연산결과반환() {
         assertThat(Operator.DIVIDE.calculate(4, 2)).isEqualTo(2);
     }
 
@@ -40,7 +40,7 @@ class OperatorTest {
         "'*', MULTIPLY",
         "'/', DIVIDE",
     })
-    void from_올바른문자열입력_정상매핑(String input, Operator expected) {
+    void from_올바른연산자문자열_생성성공(String input, Operator expected) {
         assertThat(Operator.from(input)).isEqualTo(expected);
     }
 
