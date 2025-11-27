@@ -33,6 +33,16 @@ class OperatorTest {
         assertThat(Operator.DIVIDE.calculate(4, 2)).isEqualTo(2);
     }
 
+    @Test
+    void calculate_나눗셈_몫만반환() {
+        assertThat(Operator.DIVIDE.calculate(10, 3)).isEqualTo(3);
+    }
+
+    @Test
+    void calculate_0으로나누면_예외발생() {
+        assertThatThrownBy(() -> Operator.DIVIDE.calculate(4, 0)).isInstanceOf(ArithmeticException.class);
+    }
+
     @ParameterizedTest(name = "입력:{0} -> {1}")
     @CsvSource({
         "'+', PLUS",
