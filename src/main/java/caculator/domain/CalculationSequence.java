@@ -13,4 +13,14 @@ public record CalculationSequence(List<Operation> operations) {
             throw new IllegalArgumentException("계산 순서는 1개 이상의 연산이 필요합니다.");
         }
     }
+
+    public Operand applyAll(Operand initValue) {
+        Operand currentValue = initValue;
+
+        for (Operation operationV2 : operations) {
+            currentValue = operationV2.apply(currentValue);
+        }
+
+        return currentValue;
+    }
 }
