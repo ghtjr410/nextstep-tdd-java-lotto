@@ -39,12 +39,12 @@ public class StringExpressionBuilder {
     }
 
     private List<Operation> parseOperations(String[] tokens) {
-        List<Operation> operation = new ArrayList<>();
+        List<Operation> operations = new ArrayList<>();
 
         for (int i = 1; i < tokens.length; i += 2) {
-            operation.add(new Operation(tokens[i], tokens[i + 1]));
+            operations.add(new Operation(tokens[i], tokens[i + 1]));
         }
 
-        return operation;
+        return operations;
     }
 }

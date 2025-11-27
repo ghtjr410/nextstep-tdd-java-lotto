@@ -17,8 +17,8 @@ public record CalculationSequence(List<Operation> operations) {
     public Operand applyAll(Operand initValue) {
         Operand currentValue = initValue;
 
-        for (Operation operationV2 : operations) {
-            currentValue = operationV2.apply(currentValue);
+        for (Operation operation : operations) {
+            currentValue = operation.apply(currentValue);
         }
 
         return currentValue;
