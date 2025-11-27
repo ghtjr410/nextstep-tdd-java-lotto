@@ -12,7 +12,7 @@ public record Operand(int value) {
 
     private static void validateNotBlank(String input) {
         if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("피연산자는 빈 값일 수 없습니다.");
+            throw new IllegalArgumentException("피연산자는 필수입니다.");
         }
     }
 }

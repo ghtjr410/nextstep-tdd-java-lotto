@@ -14,7 +14,7 @@ class OperandTest {
 
     @Test
     void 생성자_정수문지열_생성성공() {
-        assertThatCode(() -> new Operand("1")).doesNotThrowAnyException();
+        assertThat(new Operand("1")).isEqualTo(new Operand(1));
     }
 
     @Test
@@ -28,7 +28,7 @@ class OperandTest {
     void 생성자_빈문자열_예외발생(String input) {
         assertThatThrownBy(() -> new Operand(input))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("피연산자는 빈 값일 수 없습니다.")
+                .hasMessage("피연산자는 필수입니다.")
                 .isNotInstanceOf(NumberFormatException.class);
     }
 }
