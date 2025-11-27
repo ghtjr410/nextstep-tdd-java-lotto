@@ -1,9 +1,9 @@
-package caculator.utils;
+package calculator.utils;
 
 import static org.assertj.core.api.Assertions.*;
 
-import caculator.domain.Expression;
-import caculator.domain.Operation;
+import calculator.domain.Expression;
+import calculator.domain.Operation;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;

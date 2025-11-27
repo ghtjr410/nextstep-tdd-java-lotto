@@ -1,4 +1,4 @@
-package caculator.domain;
+package calculator.domain;
 
 public record Operation(Operator operator, Operand operand) {
 

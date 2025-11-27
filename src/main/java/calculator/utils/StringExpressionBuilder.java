@@ -1,9 +1,9 @@
-package caculator.utils;
+package calculator.utils;
 
-import caculator.domain.CalculationSequence;
-import caculator.domain.Expression;
-import caculator.domain.Operand;
-import caculator.domain.Operation;
+import calculator.domain.CalculationSequence;
+import calculator.domain.Expression;
+import calculator.domain.Operand;
+import calculator.domain.Operation;
 import java.util.ArrayList;
 import java.util.List;
 

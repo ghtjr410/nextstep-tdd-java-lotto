@@ -1,6 +1,6 @@
-package caculator;
+package calculator;
 
-import caculator.utils.StringExpressionBuilder;
+import calculator.utils.StringExpressionBuilder;
 
 public class StringCalculator {
 

@@ -1,4 +1,4 @@
-package caculator.domain;
+package calculator.domain;
 
 public record Operand(int value) {
     public Operand(String input) {
