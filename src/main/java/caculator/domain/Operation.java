@@ -12,4 +12,8 @@ public class Operation {
         this.operator = operator;
         this.operand = operand;
     }
+
+    public Operand apply(Operand currentValue) {
+        return operator.calculate(currentValue, operand);
+    }
 }

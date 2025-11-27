@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class OperationTest {
 
     @Test
-    void 생성자_피연산자와_연산자로_생성성공() {
+    void 생성자_연산자와_피연산자로_생성성공() {
         assertThatCode(() -> new OperationV2("+", "1"));
     }
 }
