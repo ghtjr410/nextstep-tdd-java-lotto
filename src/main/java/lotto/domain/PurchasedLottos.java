@@ -19,6 +19,16 @@ public record PurchasedLottos(List<Lotto> values) {
         }
     }
 
+    public LottoResult result(WinningLotto winningLotto) {
+        List<LottoRank> ranks = new ArrayList<>();
+
+        for (Lotto lotto : values) {
+            ranks.add(winningLotto.match(lotto));
+        }
+
+        return new LottoResult(ranks);
+    }
+
     public String purchaseCountForDisplay() {
         return "%d개를 구매했습니다.".formatted(size());
     }
