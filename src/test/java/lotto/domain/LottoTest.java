@@ -42,8 +42,13 @@ class LottoTest {
                 .isEqualTo(6);
     }
 
-    private LottoV2 createLotto(int... numbers) {
-        return new LottoV2(createLottoNumbers(numbers));
+    @Test
+    void sortedValuesForDisplay_정렬된문자열_반환() {
+        assertThat(createLotto(6, 1, 3, 5, 2, 4).sortedValuesForDisplay()).isEqualTo("[1, 2, 3, 4, 5, 6]");
+    }
+
+    private Lotto createLotto(int... numbers) {
+        return new Lotto(createLottoNumbers(numbers));
     }
 
     private List<LottoNumber> createLottoNumbers(int... numbers) {
