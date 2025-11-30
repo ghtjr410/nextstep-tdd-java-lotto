@@ -36,6 +36,12 @@ class LottoTest {
                 .hasMessage("로또번호는 6개여야 합니다.");
     }
 
+    @Test
+    void countMatches_다른로또_일치개수반환() {
+        assertThat(createLotto(1, 2, 3, 4, 5, 6).countMatches(createLotto(1, 2, 3, 4, 5, 6)))
+                .isEqualTo(6);
+    }
+
     private LottoV2 createLotto(int... numbers) {
         return new LottoV2(createLottoNumbers(numbers));
     }

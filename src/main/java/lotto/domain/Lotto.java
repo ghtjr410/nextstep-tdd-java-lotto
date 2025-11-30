@@ -39,4 +39,12 @@ public record Lotto(Set<LottoNumber> numbers) {
             throw new IllegalArgumentException("로또번호는 %d개여야 합니다.".formatted(LOTTO_NUMBER_COUNT));
         }
     }
+
+    public int countMatches(Lotto that) {
+        return (int) this.numbers.stream().filter(that::contains).count();
+    }
+
+    private boolean contains(LottoNumber that) {
+        return this.numbers.contains(that);
+    }
 }
