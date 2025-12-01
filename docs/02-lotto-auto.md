@@ -2,7 +2,7 @@
 ***
 ## 코드 리뷰
 > PR 링크:
-> 
+> **[https://github.com/next-step/java-lotto/pull/4225](https://github.com/next-step/java-lotto/pull/4225)**
 ## 나의 학습 목표
 - TDD 사이클로 구현
 - 객체지향 생활 체조 원칙 준수
@@ -96,9 +96,8 @@
   - [x] 상금 출력용 문자열 반환
 
 - [x] 로또 결과 (LottoResult)
-  - [x] 등수 목록으로 생성
-  - [x] 등수별 개수 맵으로 생성
-  - [x] 빈 목록일 시 예외 발생
+  - [x] 빈 상태로 생성
+  - [x] 등수 추가 
   - [x] 총 상금 계산
   - [x] 등수별 결과 출력용 문자열 반환
 
