@@ -1,11 +1,20 @@
 package lotto.domain;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public record Lotto(Set<LottoNumber> numbers) {
     private static final int LOTTO_NUMBER_COUNT = 6;
+
+    public Lotto(int... inputs) {
+        this(Arrays.stream(inputs).mapToObj(LottoNumber::new).collect(Collectors.toSet()));
+    }
+
+    private static Set<LottoNumber> toSet(int... inputs) {
+        return Arrays.stream(inputs).mapToObj(LottoNumber::new).collect(Collectors.toSet());
+    }
 
     public Lotto(List<LottoNumber> inputs) {
         this(Set.copyOf(inputs));

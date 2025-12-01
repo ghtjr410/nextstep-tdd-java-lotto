@@ -2,9 +2,8 @@ package lotto.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ class LottoTest {
 
     @Test
     void 생성자_정상입력_생성성공() {
-        assertThatCode(() -> createLotto(1, 2, 3, 4, 5, 6)).doesNotThrowAnyException();
+        assertThatCode(() -> new Lotto(1, 2, 3, 4, 5, 6)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest(name = "빈값:{0}")
@@ -31,27 +30,19 @@ class LottoTest {
     @ParameterizedTest(name = "{0}개")
     @ValueSource(ints = {5, 7})
     void 생성자_잘못된_개수_예외발생(int count) {
-        assertThatThrownBy(() -> createLotto(count))
+        assertThatThrownBy(() -> new Lotto(IntStream.rangeClosed(1, count).toArray()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("로또번호는 6개여야 합니다.");
     }
 
     @Test
     void countMatches_다른로또_일치개수반환() {
-        assertThat(createLotto(1, 2, 3, 4, 5, 6).countMatches(createLotto(1, 2, 3, 4, 5, 6)))
+        assertThat(new Lotto(1, 2, 3, 4, 5, 6).countMatches(new Lotto(1, 2, 3, 4, 5, 6)))
                 .isEqualTo(6);
     }
 
     @Test
     void sortedValuesForDisplay_정렬된문자열_반환() {
-        assertThat(createLotto(6, 1, 3, 5, 2, 4).sortedValuesForDisplay()).isEqualTo("[1, 2, 3, 4, 5, 6]");
-    }
-
-    private Lotto createLotto(int... numbers) {
-        return new Lotto(createLottoNumbers(numbers));
-    }
-
-    private List<LottoNumber> createLottoNumbers(int... numbers) {
-        return Arrays.stream(numbers).mapToObj(LottoNumber::new).toList();
+        assertThat(new Lotto(6, 1, 3, 5, 2, 4).sortedValuesForDisplay()).isEqualTo("[1, 2, 3, 4, 5, 6]");
     }
 }
