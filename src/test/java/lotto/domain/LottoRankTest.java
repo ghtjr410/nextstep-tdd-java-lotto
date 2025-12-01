@@ -23,13 +23,13 @@ class LottoRankTest {
         "0, false, MISS"
     })
     void from_일치갯수로_등수반환(int matchCount, boolean requireBonus, LottoRank expected) {
-        assertThat(LottoRank.fromV2(matchCount, requireBonus)).isEqualTo(expected);
+        assertThat(LottoRank.from(matchCount, requireBonus)).isEqualTo(expected);
     }
 
     @ParameterizedTest(name = "일치갯수:{0} -> MISS")
     @ValueSource(ints = {-1, 7})
     void from_범위초과_MISS반환(int input) {
-        assertThat(LottoRank.fromV2(input, false)).isEqualTo(LottoRank.MISS);
+        assertThat(LottoRank.from(input, false)).isEqualTo(LottoRank.MISS);
     }
 
     @ParameterizedTest(name = "등수:{0}, 개수:{1} -> {2}원")

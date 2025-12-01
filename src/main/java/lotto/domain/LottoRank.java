@@ -20,18 +20,7 @@ public enum LottoRank {
         this.prize = prize;
     }
 
-    public static LottoRank from(int matchCount) {
-        if (matchCount < 3) {
-            return MISS;
-        }
-
-        return Arrays.stream(values())
-                .filter(rank -> rank.matchCount == matchCount)
-                .findFirst()
-                .orElse(LottoRank.MISS);
-    }
-
-    public static LottoRank fromV2(int matchCount, boolean requireBonus) {
+    public static LottoRank from(int matchCount, boolean requireBonus) {
         if (matchCount < 3) {
             return MISS;
         }

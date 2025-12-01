@@ -19,10 +19,14 @@ public record WinningLotto(Lotto lotto, LottoNumber bonus) {
     }
 
     public LottoRank match(Lotto that) {
-        return LottoRank.from(countMatches(that));
+        return LottoRank.from(countMatches(that), hasBonusMatch(that));
     }
 
     private int countMatches(Lotto that) {
         return this.lotto.countMatches(that);
+    }
+
+    private boolean hasBonusMatch(Lotto that) {
+        return that.contains(bonus);
     }
 }
