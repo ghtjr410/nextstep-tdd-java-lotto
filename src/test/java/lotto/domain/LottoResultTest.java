@@ -16,14 +16,14 @@ class LottoResultTest {
 
     @Test
     void totalPrize_총상금계산() {
-        assertThat(new LottoResult(LottoRank.FIRST, LottoRank.FOURTH).totalPrize())
+        assertThat(new LottoResult(LottoRank.FIRST, LottoRank.FIFTH).totalPrize())
                 .isEqualTo(new Money(2_000_000_000 + 5_000));
     }
 
     @Test
     void rankResultForDisplay_등수별결과표시() {
-        LottoResult result = new LottoResult(LottoRank.FOURTH, LottoRank.FOURTH);
+        LottoResult result = new LottoResult(LottoRank.FIFTH, LottoRank.FIFTH);
 
-        assertThat(result.rankResultForDisplay(LottoRank.FOURTH)).isEqualTo("3개 일치 (5000원)- 2개");
+        assertThat(result.rankResultForDisplay(LottoRank.FIFTH)).isEqualTo("3개 일치 (5000원)- 2개");
     }
 }
