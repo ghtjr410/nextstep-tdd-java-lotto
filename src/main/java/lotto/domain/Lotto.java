@@ -9,7 +9,7 @@ public record Lotto(Set<LottoNumber> numbers) {
     private static final int LOTTO_NUMBER_COUNT = 6;
 
     public Lotto(int... inputs) {
-        this(Arrays.stream(inputs).mapToObj(LottoNumber::new).collect(Collectors.toSet()));
+        this(toSet(inputs));
     }
 
     private static Set<LottoNumber> toSet(int... inputs) {
