@@ -41,7 +41,7 @@ public record Lotto(Set<LottoNumber> numbers) {
         return (int) this.numbers.stream().filter(that::contains).count();
     }
 
-    private boolean contains(LottoNumber that) {
+    public boolean contains(LottoNumber that) {
         return this.numbers.contains(that);
     }
 

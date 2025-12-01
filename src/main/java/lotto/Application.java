@@ -29,8 +29,10 @@ public class Application {
     }
 
     private static WinningLotto getWinningLotto() {
-        String input = InputView.readWinningNumbers();
-        List<LottoNumber> numbers = new LottoNumberParser().parse(input);
-        return new WinningLotto(numbers);
+        String winningNumbers = InputView.readWinningNumbers();
+        String bonusNumber = InputView.readBonusNumber();
+
+        List<LottoNumber> numbers = new LottoNumberParser().parse(winningNumbers);
+        return new WinningLotto(numbers, bonusNumber);
     }
 }
