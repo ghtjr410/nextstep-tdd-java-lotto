@@ -18,6 +18,6 @@ class LottoNumberParserTest {
     }
 
     private List<LottoNumber> createLottoNumbers(int... numbers) {
-        return Arrays.stream(numbers).mapToObj(LottoNumber::new).toList();
+        return Arrays.stream(numbers).mapToObj(LottoNumber::of).toList();
     }
 }

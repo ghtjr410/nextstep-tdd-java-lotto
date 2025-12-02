@@ -13,7 +13,7 @@ public record Lotto(Set<LottoNumber> numbers) {
     }
 
     private static Set<LottoNumber> toSet(int... inputs) {
-        return Arrays.stream(inputs).mapToObj(LottoNumber::new).collect(Collectors.toSet());
+        return Arrays.stream(inputs).mapToObj(LottoNumber::of).collect(Collectors.toSet());
     }
 
     public Lotto(List<LottoNumber> inputs) {

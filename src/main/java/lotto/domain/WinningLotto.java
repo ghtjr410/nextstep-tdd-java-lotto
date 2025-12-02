@@ -5,11 +5,11 @@ import java.util.List;
 public record WinningLotto(Lotto lotto, LottoNumber bonus) {
 
     public WinningLotto(List<LottoNumber> numbers, String bonus) {
-        this(new Lotto(numbers), new LottoNumber(bonus));
+        this(new Lotto(numbers), LottoNumber.of(bonus));
     }
 
     public WinningLotto(Lotto lotto, int bonus) {
-        this(lotto, new LottoNumber(bonus));
+        this(lotto, LottoNumber.of(bonus));
     }
 
     public WinningLotto {
