@@ -11,13 +11,12 @@ class WinningLottoTest {
 
     @Test
     void 생성자_정상입력_생성성공() {
-        assertThatCode(() -> new WinningLotto(new Lotto(1, 2, 3, 4, 5, 6), new LottoNumber(7)))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> new WinningLotto(new Lotto(1, 2, 3, 4, 5, 6), 7)).doesNotThrowAnyException();
     }
 
     @Test
     void 생성자_보너스번호_중복_예외발생() {
-        assertThatThrownBy(() -> new WinningLotto(new Lotto(1, 2, 3, 4, 5, 6), new LottoNumber(6)))
+        assertThatThrownBy(() -> new WinningLotto(new Lotto(1, 2, 3, 4, 5, 6), 6))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
     }

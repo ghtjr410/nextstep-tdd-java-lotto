@@ -8,6 +8,10 @@ public record WinningLotto(Lotto lotto, LottoNumber bonus) {
         this(new Lotto(numbers), new LottoNumber(bonus));
     }
 
+    public WinningLotto(Lotto lotto, int bonus) {
+        this(lotto, new LottoNumber(bonus));
+    }
+
     public WinningLotto {
         validateBonusNotDuplicated(lotto, bonus);
     }
