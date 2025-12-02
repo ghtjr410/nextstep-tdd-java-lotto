@@ -17,7 +17,7 @@ public class AutoBasedLottoGenerator {
 
     public AutoBasedLottoGenerator() {
         this.numbers = IntStream.rangeClosed(LOTTO_NUMBER_MIN, LOTTO_NUMBER_MAX)
-                .mapToObj(LottoNumber::new)
+                .mapToObj(LottoNumber::of)
                 .collect(Collectors.toList());
     }
 

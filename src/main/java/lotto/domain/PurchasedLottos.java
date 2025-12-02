@@ -1,6 +1,5 @@
 package lotto.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public record PurchasedLottos(List<Lotto> values) {
@@ -20,13 +19,13 @@ public record PurchasedLottos(List<Lotto> values) {
     }
 
     public LottoResult result(WinningLotto winningLotto) {
-        List<LottoRank> ranks = new ArrayList<>();
+        LottoResult result = new LottoResult();
 
         for (Lotto lotto : values) {
-            ranks.add(winningLotto.match(lotto));
+            result.updateRank(winningLotto.match(lotto));
         }
 
-        return new LottoResult(ranks);
+        return result;
     }
 
     public String purchaseCountForDisplay() {

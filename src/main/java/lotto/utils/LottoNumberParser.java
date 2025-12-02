@@ -11,7 +11,7 @@ public class LottoNumberParser {
         return Arrays.stream(input.split(DELIMITER))
                 .map(String::trim)
                 .map(Integer::parseInt)
-                .map(LottoNumber::new)
+                .map(LottoNumber::of)
                 .toList();
     }
 }

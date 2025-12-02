@@ -19,6 +19,7 @@ public class ResultView {
         System.out.println("당첨 통계");
         System.out.println("---------");
 
+        printRankResult(LottoRank.FIFTH, result);
         printRankResult(LottoRank.FOURTH, result);
         printRankResult(LottoRank.THIRD, result);
         printRankResult(LottoRank.SECOND, result);

@@ -1,29 +1,28 @@
 package lotto.domain;
 
-import java.util.List;
+import java.util.EnumMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public record LottoResult(Map<LottoRank, Long> rankCounts) {
+public class LottoResult {
+    private final Map<LottoRank, Long> rankCounts;
 
     public LottoResult(LottoRank... ranks) {
-        this(List.of(ranks));
-    }
-
-    public LottoResult(List<LottoRank> ranks) {
-        this(convert(ranks));
-    }
-
-    private static Map<LottoRank, Long> convert(List<LottoRank> ranks) {
-        validateNotEmpty(ranks);
-
-        return ranks.stream().collect(Collectors.groupingBy(rank -> rank, Collectors.counting()));
-    }
-
-    private static void validateNotEmpty(List<LottoRank> ranks) {
-        if (ranks == null || ranks.isEmpty()) {
-            throw new IllegalArgumentException("로또 등수는 1개 이상이어야 합니다.");
+        this();
+        for (LottoRank rank : ranks) {
+            updateRank(rank);
         }
+    }
+
+    public LottoResult() {
+        this(new EnumMap<>(LottoRank.class));
+    }
+
+    public LottoResult(Map<LottoRank, Long> rankCounts) {
+        this.rankCounts = rankCounts;
+    }
+
+    public void updateRank(LottoRank rank) {
+        rankCounts.merge(rank, 1L, Long::sum);
     }
 
     public Money totalPrize() {

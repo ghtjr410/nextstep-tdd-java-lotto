@@ -13,21 +13,29 @@ import org.junit.jupiter.params.provider.ValueSource;
 class LottoRankTest {
 
     @ParameterizedTest(name = "일치갯수:{0}, 등수:{1}")
-    @CsvSource({"6, FIRST", "5, SECOND", "4, THIRD", "3, FOURTH", "2, MISS", "0, MISS"})
-    void from_일치갯수로_등수반환(int input, LottoRank expected) {
-        assertThat(LottoRank.from(input)).isEqualTo(expected);
+    @CsvSource({
+        "6, false, FIRST",
+        "5, true, SECOND",
+        "5, false, THIRD",
+        "4, false, FOURTH",
+        "3, false, FIFTH",
+        "2, false, MISS",
+        "0, false, MISS"
+    })
+    void from_일치갯수로_등수반환(int matchCount, boolean requireBonus, LottoRank expected) {
+        assertThat(LottoRank.from(matchCount, requireBonus)).isEqualTo(expected);
     }
 
     @ParameterizedTest(name = "일치갯수:{0} -> MISS")
     @ValueSource(ints = {-1, 7})
     void from_범위초과_MISS반환(int input) {
-        assertThat(LottoRank.from(input)).isEqualTo(LottoRank.MISS);
+        assertThat(LottoRank.from(input, false)).isEqualTo(LottoRank.MISS);
     }
 
     @ParameterizedTest(name = "등수:{0}, 개수:{1} -> {2}원")
     @CsvSource({
-        "THIRD, 1, 50000",
-        "THIRD, 2, 100000",
+        "THIRD, 1, 1_500_000",
+        "THIRD, 2, 3_000_000",
         "MISS, 1, 0",
         "MISS, 100, 0",
     })

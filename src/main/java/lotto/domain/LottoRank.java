@@ -3,27 +3,33 @@ package lotto.domain;
 import java.util.Arrays;
 
 public enum LottoRank {
-    FIRST(6, new Money(2_000_000_000)),
-    SECOND(5, new Money(1_500_000)),
-    THIRD(4, new Money(50_000)),
-    FOURTH(3, new Money(5_000)),
-    MISS(0, Money.ZERO);
+    FIRST(6, false, new Money(2_000_000_000), "6개 일치"),
+    SECOND(5, true, new Money(30_000_000), "5개 일치, 보너스 볼 일치"),
+    THIRD(5, false, new Money(1_500_000), "5개 일치"),
+    FOURTH(4, false, new Money(50_000), "4개 일치"),
+    FIFTH(3, false, new Money(5_000), "3개 일치"),
+    MISS(0, false, Money.ZERO, "");
 
     private final int matchCount;
+    private final boolean requireBonus;
     private final Money prize;
+    private final String displayName;
 
-    LottoRank(int matchCount, Money prize) {
+    LottoRank(int matchCount, boolean requireBonus, Money prize, String displayName) {
         this.matchCount = matchCount;
+        this.requireBonus = requireBonus;
         this.prize = prize;
+        this.displayName = displayName;
     }
 
-    public static LottoRank from(int matchCount) {
+    public static LottoRank from(int matchCount, boolean requireBonus) {
         if (matchCount < 3) {
             return MISS;
         }
 
         return Arrays.stream(values())
                 .filter(rank -> rank.matchCount == matchCount)
+                .filter(rank -> rank.requireBonus == requireBonus)
                 .findFirst()
                 .orElse(LottoRank.MISS);
     }
@@ -33,10 +39,10 @@ public enum LottoRank {
     }
 
     public String matchCountDisplay() {
-        return "%d개 일치".formatted(matchCount);
+        return this.displayName;
     }
 
     public String prizeDisplay() {
-        return prize.toWonString(); // "2,000,000,000원"
+        return prize.toWonString();
     }
 }
