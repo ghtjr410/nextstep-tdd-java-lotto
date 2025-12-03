@@ -4,8 +4,8 @@ import java.util.List;
 
 public record WinningLotto(Lotto lotto, LottoNumber bonus) {
 
-    public WinningLotto(List<LottoNumber> numbers, String bonus) {
-        this(new Lotto(numbers), LottoNumber.of(bonus));
+    public WinningLotto(List<LottoNumber> numbers, LottoNumber bonus) {
+        this(new Lotto(numbers), bonus);
     }
 
     public WinningLotto(Lotto lotto, int bonus) {

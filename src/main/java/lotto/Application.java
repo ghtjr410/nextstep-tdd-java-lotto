@@ -1,5 +1,8 @@
 package lotto;
 
+import static lotto.view.InputView.*;
+import static lotto.view.ResultView.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -7,23 +10,21 @@ import lotto.domain.*;
 import lotto.utils.AutoBasedLottoGenerator;
 import lotto.utils.LottoNumberParser;
 import lotto.utils.ManualBasedLottoGenerator;
-import lotto.view.InputView;
-import lotto.view.ResultView;
 
 public class Application {
     public static void main(String[] args) {
         LottoPurchaseAmount purchaseAmount = getPurchaseAmount();
         PurchasedLottos purchased = purchaseLottos(purchaseAmount);
 
-        ResultView.printPurchasedLottos(purchased);
+        printPurchasedLottos(purchased);
 
         LottoResult result = purchased.result(getWinningLotto());
 
-        ResultView.printResult(result, purchaseAmount);
+        printResult(result, purchaseAmount);
     }
 
     private static LottoPurchaseAmount getPurchaseAmount() {
-        return retryUntilSuccess(() -> new LottoPurchaseAmount(InputView.readPurchaseAmount()));
+        return retryUntilSuccess(() -> new LottoPurchaseAmount(readPurchaseAmount()));
     }
 
     private static PurchasedLottos purchaseLottos(LottoPurchaseAmount purchaseAmount) {
@@ -34,25 +35,22 @@ public class Application {
         LottoCount autoCount = totalCount.subtract(manualCount);
         List<Lotto> autoLottos = generateAutoLottos(autoCount);
 
-        ResultView.printPurchaseCount(manualCount, autoCount);
+        printPurchaseCount(manualCount, autoCount);
 
         return mergeLottos(manualLottos, autoLottos);
     }
 
     private static LottoCount getManualLottoCount(LottoCount totalCount) {
         return retryUntilSuccess(() -> {
-            LottoCount manualCount = new LottoCount(InputView.readManualLottoCount());
+            LottoCount manualCount = new LottoCount(readManualLottoCount());
             totalCount.validateSubtractable(manualCount);
             return manualCount;
         });
     }
 
     private static List<Lotto> generateManualLottos(LottoCount manualCount) {
-        return retryUntilSuccess(() -> new ManualBasedLottoGenerator().generate(getManualLottoNumbers(manualCount)));
-    }
-
-    private static List<String> getManualLottoNumbers(LottoCount manualCount) {
-        return InputView.readManualLottoNumbers(manualCount.value());
+        return retryUntilSuccess(
+                () -> new ManualBasedLottoGenerator().generate(readManualLottoNumbers(manualCount.value())));
     }
 
     private static List<Lotto> generateAutoLottos(LottoCount autoCount) {
@@ -66,11 +64,27 @@ public class Application {
     }
 
     private static WinningLotto getWinningLotto() {
-        String winningNumbers = InputView.readWinningNumbers();
-        String bonusNumber = InputView.readBonusNumber();
+        List<LottoNumber> numbers = getWinningNumbers();
+        LottoNumber bonus = getBonusNumber(numbers);
+        return new WinningLotto(numbers, bonus);
+    }
 
-        List<LottoNumber> numbers = new LottoNumberParser().parse(winningNumbers);
-        return new WinningLotto(numbers, bonusNumber);
+    private static List<LottoNumber> getWinningNumbers() {
+        return retryUntilSuccess(() -> new LottoNumberParser().parse(readWinningNumbers()));
+    }
+
+    private static LottoNumber getBonusNumber(List<LottoNumber> winningNumbers) {
+        return retryUntilSuccess(() -> {
+            LottoNumber bonus = LottoNumber.of(readBonusNumber());
+            validateBonusNotDuplicated(winningNumbers, bonus);
+            return bonus;
+        });
+    }
+
+    private static void validateBonusNotDuplicated(List<LottoNumber> numbers, LottoNumber bonus) {
+        if (numbers.contains(bonus)) {
+            throw new IllegalArgumentException("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
+        }
     }
 
     private static <T> T retryUntilSuccess(Supplier<T> action) {
