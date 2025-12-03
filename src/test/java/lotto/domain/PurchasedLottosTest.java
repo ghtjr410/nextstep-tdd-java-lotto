@@ -24,11 +24,4 @@ class PurchasedLottosTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("구매한 로또는 1개 이상이어야 합니다.");
     }
-
-    @Test
-    void purchaseCountForDisplay_구매개수_표시() {
-        PurchasedLottos purchased = new PurchasedLottos(new Lotto(1, 2, 3, 4, 5, 6));
-
-        assertThat(purchased.purchaseCountForDisplay()).isEqualTo("1개를 구매했습니다.");
-    }
 }

@@ -27,12 +27,4 @@ public record PurchasedLottos(List<Lotto> values) {
 
         return result;
     }
-
-    public String purchaseCountForDisplay() {
-        return "%d개를 구매했습니다.".formatted(size());
-    }
-
-    private int size() {
-        return values.size();
-    }
 }
