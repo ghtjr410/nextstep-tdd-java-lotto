@@ -13,4 +13,14 @@ public record ManualLottoCount(int value) {
 
         return Integer.parseInt(input);
     }
+
+    public ManualLottoCount {
+        validateNonNegative(value);
+    }
+
+    private static void validateNonNegative(int input) {
+        if (input < 0) {
+            throw new IllegalArgumentException("수동 구매 개수는 0 이상이어야 합니다.");
+        }
+    }
 }
