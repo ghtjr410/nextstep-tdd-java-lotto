@@ -18,4 +18,8 @@ public record LottoCount(int value) {
             throw new IllegalArgumentException("구매 개수는 0이상이어야 합니다.");
         }
     }
+
+    public LottoCount subtract(LottoCount lottoCount) {
+        return new LottoCount(this.value - lottoCount.value);
+    }
 }

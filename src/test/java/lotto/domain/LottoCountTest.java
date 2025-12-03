@@ -33,4 +33,9 @@ class LottoCountTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("구매 개수는 0이상이어야 합니다.");
     }
+
+    @Test
+    void subtract_정상값_차감() {
+        assertThat(new LottoCount(10).subtract(new LottoCount(3))).isEqualTo(new LottoCount(7));
+    }
 }
