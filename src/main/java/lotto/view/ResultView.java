@@ -4,8 +4,8 @@ import lotto.domain.*;
 
 public class ResultView {
 
-    public static void printPurchaseCount(PurchasedLottos purchased) {
-        System.out.println(purchased.purchaseCountForDisplay());
+    public static void printPurchaseCount(LottoCount manualCount, LottoCount auto) {
+        System.out.printf("수동으로 %d장, 자동으로 %d개를 구매했습니다.%n", manualCount.value(), auto.value());
     }
 
     public static void printPurchasedLottos(PurchasedLottos purchased) {

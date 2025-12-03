@@ -1,18 +1,19 @@
 package lotto;
 
+import java.util.ArrayList;
 import java.util.List;
 import lotto.domain.*;
 import lotto.utils.AutoBasedLottoGenerator;
 import lotto.utils.LottoNumberParser;
+import lotto.utils.ManualBasedLottoGenerator;
 import lotto.view.InputView;
 import lotto.view.ResultView;
 
 public class Application {
     public static void main(String[] args) {
         LottoPurchaseAmount purchaseAmount = getPurchaseAmount();
-        PurchasedLottos purchased = new PurchasedLottos(generateLottos(purchaseAmount));
+        PurchasedLottos purchased = purchaseLottos(purchaseAmount);
 
-        ResultView.printPurchaseCount(purchased);
         ResultView.printPurchasedLottos(purchased);
 
         LottoResult result = purchased.result(getWinningLotto());
@@ -24,8 +25,34 @@ public class Application {
         return new LottoPurchaseAmount(InputView.readPurchaseAmount());
     }
 
-    private static List<Lotto> generateLottos(LottoPurchaseAmount purchaseAmount) {
-        return new AutoBasedLottoGenerator().generate(purchaseAmount.lottoCount());
+    private static PurchasedLottos purchaseLottos(LottoPurchaseAmount purchaseAmount) {
+        LottoCount totalCount = purchaseAmount.lottoCount();
+
+        LottoCount manualCount = new LottoCount(InputView.readManualLottoCount());
+        List<Lotto> manualLottos = generateManualLottos(manualCount);
+
+        LottoCount autoCount = totalCount.subtract(manualCount);
+        List<Lotto> autoLottos = generateAutoLottos(autoCount);
+
+        ResultView.printPurchaseCount(manualCount, autoCount);
+
+        return mergeLottos(manualLottos, autoLottos);
+    }
+
+    private static List<Lotto> generateManualLottos(LottoCount manualCount) {
+        List<String> manualInputs = InputView.readManualLottoNumbers(manualCount.value());
+        List<Lotto> manualLottos = new ManualBasedLottoGenerator().generate(manualInputs);
+        return manualLottos;
+    }
+
+    private static List<Lotto> generateAutoLottos(LottoCount autoCount) {
+        return new AutoBasedLottoGenerator().generate(autoCount);
+    }
+
+    private static PurchasedLottos mergeLottos(List<Lotto> manual, List<Lotto> auto) {
+        List<Lotto> all = new ArrayList<>(manual);
+        all.addAll(auto);
+        return new PurchasedLottos(all);
     }
 
     private static WinningLotto getWinningLotto() {
