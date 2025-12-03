@@ -64,25 +64,29 @@ public class Application {
     }
 
     private static WinningLotto getWinningLotto() {
-        List<LottoNumber> numbers = getWinningNumbers();
-        LottoNumber bonus = getBonusNumber(numbers);
-        return new WinningLotto(numbers, bonus);
+        Lotto lotto = generateWinningLotto();
+        LottoNumber bonus = getBonusNumber(lotto);
+        return new WinningLotto(lotto, bonus);
+    }
+
+    private static Lotto generateWinningLotto() {
+        return retryUntilSuccess(() -> new Lotto(getWinningNumbers()));
     }
 
     private static List<LottoNumber> getWinningNumbers() {
-        return retryUntilSuccess(() -> new LottoNumberParser().parse(readWinningNumbers()));
+        return new LottoNumberParser().parse(readWinningNumbers());
     }
 
-    private static LottoNumber getBonusNumber(List<LottoNumber> winningNumbers) {
+    private static LottoNumber getBonusNumber(Lotto lotto) {
         return retryUntilSuccess(() -> {
             LottoNumber bonus = LottoNumber.of(readBonusNumber());
-            validateBonusNotDuplicated(winningNumbers, bonus);
+            validateBonusNotDuplicated(lotto, bonus);
             return bonus;
         });
     }
 
-    private static void validateBonusNotDuplicated(List<LottoNumber> numbers, LottoNumber bonus) {
-        if (numbers.contains(bonus)) {
+    private static void validateBonusNotDuplicated(Lotto lotto, LottoNumber bonus) {
+        if (lotto.contains(bonus)) {
             throw new IllegalArgumentException("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
         }
     }
