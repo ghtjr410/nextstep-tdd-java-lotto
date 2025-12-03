@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -34,8 +35,30 @@ class LottoCountTest {
                 .hasMessage("구매 개수는 0이상이어야 합니다.");
     }
 
+    @ParameterizedTest(name = "원본:{0} - 차감:{1} = 결과:{2}")
+    @CsvSource({"10, 3, 7", "5, 5, 0"})
+    void subtract_정상값_차감(int original, int subtrahend, int expected) {
+        assertThat(new LottoCount(original).subtract(new LottoCount(subtrahend)))
+                .isEqualTo(new LottoCount(expected));
+    }
+
     @Test
-    void subtract_정상값_차감() {
-        assertThat(new LottoCount(10).subtract(new LottoCount(3))).isEqualTo(new LottoCount(7));
+    void subtract_초과값_예외발생() {
+        assertThatThrownBy(() -> new LottoCount(3).subtract(new LottoCount(5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("차감할 수 없습니다.");
+    }
+
+    @Test
+    void validateSubtractable_정상값_예외없음() {
+        assertThatCode(() -> new LottoCount(10).validateSubtractable(new LottoCount(5)))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void validateSubtractable_초과값_예외발생() {
+        assertThatThrownBy(() -> new LottoCount(3).validateSubtractable(new LottoCount(5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("차감할 수 없습니다.");
     }
 }

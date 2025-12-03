@@ -19,7 +19,18 @@ public record LottoCount(int value) {
         }
     }
 
-    public LottoCount subtract(LottoCount lottoCount) {
-        return new LottoCount(this.value - lottoCount.value);
+    public LottoCount subtract(LottoCount other) {
+        validateSubtractable(other);
+        return new LottoCount(this.value - other.value);
+    }
+
+    public void validateSubtractable(LottoCount other) {
+        if (isLessThan(other)) {
+            throw new IllegalArgumentException("차감할 수 없습니다.");
+        }
+    }
+
+    private boolean isLessThan(LottoCount other) {
+        return this.value < other.value;
     }
 }
