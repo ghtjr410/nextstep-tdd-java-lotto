@@ -2,6 +2,7 @@ package lotto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import lotto.domain.*;
 import lotto.utils.AutoBasedLottoGenerator;
 import lotto.utils.LottoNumberParser;
@@ -22,13 +23,12 @@ public class Application {
     }
 
     private static LottoPurchaseAmount getPurchaseAmount() {
-        return new LottoPurchaseAmount(InputView.readPurchaseAmount());
+        return retryUntilSuccess(() -> new LottoPurchaseAmount(InputView.readPurchaseAmount()));
     }
 
     private static PurchasedLottos purchaseLottos(LottoPurchaseAmount purchaseAmount) {
         LottoCount totalCount = purchaseAmount.lottoCount();
-
-        LottoCount manualCount = new LottoCount(InputView.readManualLottoCount());
+        LottoCount manualCount = getManualLottoCount(totalCount);
         List<Lotto> manualLottos = generateManualLottos(manualCount);
 
         LottoCount autoCount = totalCount.subtract(manualCount);
@@ -39,10 +39,20 @@ public class Application {
         return mergeLottos(manualLottos, autoLottos);
     }
 
+    private static LottoCount getManualLottoCount(LottoCount totalCount) {
+        return retryUntilSuccess(() -> {
+            LottoCount manualCount = new LottoCount(InputView.readManualLottoCount());
+            totalCount.validateSubtractable(manualCount);
+            return manualCount;
+        });
+    }
+
     private static List<Lotto> generateManualLottos(LottoCount manualCount) {
-        List<String> manualInputs = InputView.readManualLottoNumbers(manualCount.value());
-        List<Lotto> manualLottos = new ManualBasedLottoGenerator().generate(manualInputs);
-        return manualLottos;
+        return retryUntilSuccess(() -> new ManualBasedLottoGenerator().generate(getManualLottoNumbers(manualCount)));
+    }
+
+    private static List<String> getManualLottoNumbers(LottoCount manualCount) {
+        return InputView.readManualLottoNumbers(manualCount.value());
     }
 
     private static List<Lotto> generateAutoLottos(LottoCount autoCount) {
@@ -61,5 +71,15 @@ public class Application {
 
         List<LottoNumber> numbers = new LottoNumberParser().parse(winningNumbers);
         return new WinningLotto(numbers, bonusNumber);
+    }
+
+    private static <T> T retryUntilSuccess(Supplier<T> action) {
+        while (true) {
+            try {
+                return action.get();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }
