@@ -8,7 +8,7 @@ public class ResultView {
         System.out.printf("수동으로 %d장, 자동으로 %d개를 구매했습니다.%n", manualCount.value(), auto.value());
     }
 
-    public static void printPurchasedLottos(PurchasedLottos purchased) {
+    public static void printPurchasedLottos(Lottos purchased) {
         for (Lotto lottoV2 : purchased.values()) {
             System.out.println(lottoV2.sortedValuesForDisplay());
         }

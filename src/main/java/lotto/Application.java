@@ -14,7 +14,7 @@ import lotto.domain.ManualBasedLottoGenerator;
 public class Application {
     public static void main(String[] args) {
         LottoPurchaseAmount purchaseAmount = createPurchaseAmount();
-        PurchasedLottos purchased = purchaseLottos(purchaseAmount);
+        Lottos purchased = purchaseLottos(purchaseAmount);
 
         printPurchasedLottos(purchased);
 
@@ -27,7 +27,7 @@ public class Application {
         return retryUntilSuccess(() -> new LottoPurchaseAmount(readPurchaseAmount()));
     }
 
-    private static PurchasedLottos purchaseLottos(LottoPurchaseAmount purchaseAmount) {
+    private static Lottos purchaseLottos(LottoPurchaseAmount purchaseAmount) {
         LottoCount totalCount = purchaseAmount.lottoCount();
         LottoCount manualCount = createManualLottoCount(totalCount);
         LottoCount autoCount = totalCount.subtract(manualCount);
@@ -54,10 +54,10 @@ public class Application {
         return new AutoBasedLottoGenerator().generate(autoCount);
     }
 
-    private static PurchasedLottos mergeLottos(List<Lotto> manual, List<Lotto> auto) {
+    private static Lottos mergeLottos(List<Lotto> manual, List<Lotto> auto) {
         List<Lotto> all = new ArrayList<>(manual);
         all.addAll(auto);
-        return new PurchasedLottos(all);
+        return new Lottos(all);
     }
 
     private static WinningLotto createWinningLotto() {

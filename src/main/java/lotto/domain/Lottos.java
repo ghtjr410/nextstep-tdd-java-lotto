@@ -2,13 +2,13 @@ package lotto.domain;
 
 import java.util.List;
 
-public record PurchasedLottos(List<Lotto> values) {
+public record Lottos(List<Lotto> values) {
 
-    public PurchasedLottos(Lotto... inputs) {
+    public Lottos(Lotto... inputs) {
         this(List.of(inputs));
     }
 
-    public PurchasedLottos {
+    public Lottos {
         validateNotBlank(values);
     }
 
