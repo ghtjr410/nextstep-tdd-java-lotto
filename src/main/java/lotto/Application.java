@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import lotto.domain.*;
-import lotto.utils.AutoBasedLottoGenerator;
-import lotto.utils.LottoNumberParser;
-import lotto.utils.ManualBasedLottoGenerator;
+import lotto.domain.AutoBasedLottoGenerator;
+import lotto.domain.LottoNumberParser;
+import lotto.domain.ManualBasedLottoGenerator;
 
 public class Application {
     public static void main(String[] args) {

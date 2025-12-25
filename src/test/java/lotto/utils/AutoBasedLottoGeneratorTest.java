@@ -2,6 +2,7 @@ package lotto.utils;
 
 import static org.assertj.core.api.Assertions.*;
 
+import lotto.domain.AutoBasedLottoGenerator;
 import lotto.domain.LottoCount;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
