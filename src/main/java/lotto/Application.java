@@ -3,7 +3,6 @@ package lotto;
 import static lotto.view.InputView.*;
 import static lotto.view.ResultView.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import lotto.domain.*;
@@ -34,7 +33,7 @@ public class Application {
 
         printPurchaseCount(manualCount, autoCount);
 
-        return mergeLottos(createManualLottos(manualCount), generateAutoLottos(autoCount));
+        return createManualLottos(manualCount).merge(generateAutoLottos(autoCount));
     }
 
     private static LottoCount createManualLottoCount(LottoCount totalCount) {
@@ -45,19 +44,13 @@ public class Application {
         });
     }
 
-    private static List<Lotto> createManualLottos(LottoCount manualCount) {
+    private static Lottos createManualLottos(LottoCount manualCount) {
         return retryUntilSuccess(
-                () -> new ManualBasedLottoGenerator().generate(readManualLottoNumbers(manualCount.value())));
+                () -> new ManualBasedLottoGenerator(readManualLottoNumbers(manualCount.value())).generate());
     }
 
-    private static List<Lotto> generateAutoLottos(LottoCount autoCount) {
-        return new AutoBasedLottoGenerator().generate(autoCount);
-    }
-
-    private static Lottos mergeLottos(List<Lotto> manual, List<Lotto> auto) {
-        List<Lotto> all = new ArrayList<>(manual);
-        all.addAll(auto);
-        return new Lottos(all);
+    private static Lottos generateAutoLottos(LottoCount autoCount) {
+        return new AutoBasedLottoGenerator(autoCount).generate();
     }
 
     private static WinningLotto createWinningLotto() {

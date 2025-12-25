@@ -11,6 +11,7 @@ class AutoBasedLottoGeneratorTest {
 
     @Test
     void generate_지정개수_생성() {
-        assertThat(new AutoBasedLottoGenerator().generate(new LottoCount(5))).hasSize(5);
+        assertThat(new AutoBasedLottoGenerator(new LottoCount(5)).generate().size())
+                .isEqualTo(5);
     }
 }

@@ -1,5 +1,6 @@
 package lotto.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record Lottos(List<Lotto> values) {
@@ -18,6 +19,14 @@ public record Lottos(List<Lotto> values) {
         }
     }
 
+    public Lottos merge(Lottos other) {
+        List<Lotto> merged = new ArrayList<>(this.values);
+
+        merged.addAll(other.values);
+
+        return new Lottos(merged);
+    }
+
     public LottoResult result(WinningLotto winningLotto) {
         LottoResult result = new LottoResult();
 
@@ -26,5 +35,9 @@ public record Lottos(List<Lotto> values) {
         }
 
         return result;
+    }
+
+    public int size() {
+        return values().size();
     }
 }

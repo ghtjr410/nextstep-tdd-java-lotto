@@ -24,4 +24,14 @@ class LottosTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("구매한 로또는 1개 이상이어야 합니다.");
     }
+
+    @Test
+    void merge_두_로또_목록을_합친다() {
+        Lottos first = new Lottos(new Lotto(1, 2, 3, 4, 5, 6));
+        Lottos second = new Lottos(new Lotto(7, 8, 9, 10, 11, 12));
+
+        Lottos merged = first.merge(second);
+
+        assertThat(merged.size()).isEqualTo(2);
+    }
 }
