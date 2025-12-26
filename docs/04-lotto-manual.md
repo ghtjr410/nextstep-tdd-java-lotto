@@ -60,6 +60,13 @@
     - [x] 특정 번호 포함 여부 판단
     - [x] 정렬된 출력용 문자열 반환
 
+### 로또 목록
+- [x] 로또 목록 (Lottos)
+  - [x] 로또 목록으로 생성
+  - [x] 빈 목록일 시 예외 발생
+  - [x] 당첨 로또와 비교하여 결과 생성
+  - [x] 다른 로또 목록과 병합 (merge)
+
 ### 로또 구매
 - [x] 로또 구매 개수 (LottoCount)
     - [x] 0 이상의 정수로 생성
@@ -76,11 +83,6 @@
     - [x] 최소 금액(1,000원) 미달 시 예외 발생
     - [x] 1,000원 단위가 아닐 시 예외 발생
     - [x] 구매 가능한 로또 개수 계산
-
-- [x] 구매한 로또 목록 (PurchasedLottos)
-    - [x] 로또 목록으로 생성
-    - [x] 빈 목록일 시 예외 발생
-    - [x] 당첨 로또와 비교하여 결과 생성
 
 ### 당첨 판정
 - [x] 당첨 로또 (WinningLotto)
@@ -111,13 +113,26 @@
     - [x] 수익률 0 미만일 시 예외 발생
     - [x] 수익률 출력용 문자열 반환
 
-### 유틸리티
-- [x] 자동 로또 생성기 (AutoBasedLottoGenerator)
+### 로또 생성
+- [x] 로또 생성기 인터페이스 (LottosGenerator)
+  - [x] 로또 목록 생성 메서드 정의
+
+- [x] 자동 로또 생성기 (AutoBasedLottosGenerator)
+    - LottosGenerator 구현
     - [x] 1~45 범위의 번호 풀 보유
     - [x] 지정 개수만큼 로또 생성
     - [x] 셔플 방식으로 6개 번호 선택
-- [x] 수동 로또 생성기 (ManualBasedLottoGenerator)
+
+- [x] 수동 로또 생성기 (ManualBasedLottosGenerator)
+    - [x] LottosGenerator 구현
     - [x] 문자열 목록을 입력받아 로또 목록 생성
 
+- [x] 복합 로또 생성기 (CombinedLottosGenerator)
+    - [x] LottosGenerator 구현
+    - [x] 구매 금액과 수동 입력으로 생성
+    - [x] 수동/자동 개수 계산 후 각 Generator 생성
+    - [x] 여러 Generator 결과를 병합하여 반환
+
+### 유틸리티
 - [x] 로또 번호 파서 (LottoNumberParser)
     - [x] 쉼표 구분 문자열을 로또 번호 목록으로 변환
