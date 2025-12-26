@@ -3,11 +3,10 @@ package lotto;
 import static lotto.view.InputView.*;
 import static lotto.view.ResultView.*;
 
+import java.util.List;
 import java.util.function.Supplier;
 import lotto.domain.*;
-import lotto.domain.AutoBasedLottosGenerator;
 import lotto.domain.LottoNumberParser;
-import lotto.domain.ManualBasedLottosGenerator;
 
 public class Application {
     public static void main(String[] args) {
@@ -32,7 +31,14 @@ public class Application {
 
         printPurchaseCount(manualCount, autoCount);
 
-        return createManualLottos(manualCount).merge(createAutoLottos(autoCount));
+        return createLottos(purchaseAmount, manualCount);
+    }
+
+    private static Lottos createLottos(LottoPurchaseAmount purchaseAmount, LottoCount manualCount) {
+        return retryUntilSuccess(() -> {
+            List<String> manualInputs = readManualLottoNumbers(manualCount.value());
+            return new CombinedLottosGenerator(purchaseAmount, manualInputs).generate();
+        });
     }
 
     private static LottoCount createManualLottoCount(LottoCount totalCount) {
@@ -41,15 +47,6 @@ public class Application {
             totalCount.validateSubtractable(manualCount);
             return manualCount;
         });
-    }
-
-    private static Lottos createManualLottos(LottoCount manualCount) {
-        return retryUntilSuccess(
-                () -> new ManualBasedLottosGenerator(readManualLottoNumbers(manualCount.value())).generate());
-    }
-
-    private static Lottos createAutoLottos(LottoCount autoCount) {
-        return new AutoBasedLottosGenerator(autoCount).generate();
     }
 
     private static WinningLotto createWinningLotto() {
