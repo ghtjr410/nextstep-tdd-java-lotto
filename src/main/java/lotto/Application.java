@@ -3,7 +3,6 @@ package lotto;
 import static lotto.view.InputView.*;
 import static lotto.view.ResultView.*;
 
-import java.util.List;
 import java.util.function.Supplier;
 import lotto.domain.*;
 import lotto.domain.AutoBasedLottoGenerator;
@@ -33,7 +32,7 @@ public class Application {
 
         printPurchaseCount(manualCount, autoCount);
 
-        return createManualLottos(manualCount).merge(generateAutoLottos(autoCount));
+        return createManualLottos(manualCount).merge(createAutoLottos(autoCount));
     }
 
     private static LottoCount createManualLottoCount(LottoCount totalCount) {
@@ -49,36 +48,13 @@ public class Application {
                 () -> new ManualBasedLottoGenerator(readManualLottoNumbers(manualCount.value())).generate());
     }
 
-    private static Lottos generateAutoLottos(LottoCount autoCount) {
+    private static Lottos createAutoLottos(LottoCount autoCount) {
         return new AutoBasedLottoGenerator(autoCount).generate();
     }
 
     private static WinningLotto createWinningLotto() {
-        Lotto lotto = createLottoForWinning();
-        LottoNumber bonus = createBonusNumber(lotto);
-        return new WinningLotto(lotto, bonus);
-    }
-
-    private static Lotto createLottoForWinning() {
-        return retryUntilSuccess(() -> new Lotto(createWinningNumbers()));
-    }
-
-    private static List<LottoNumber> createWinningNumbers() {
-        return new LottoNumberParser().parse(readWinningNumbers());
-    }
-
-    private static LottoNumber createBonusNumber(Lotto lotto) {
-        return retryUntilSuccess(() -> {
-            LottoNumber bonus = LottoNumber.of(readBonusNumber());
-            validateBonusNotDuplicated(lotto, bonus);
-            return bonus;
-        });
-    }
-
-    private static void validateBonusNotDuplicated(Lotto lotto, LottoNumber bonus) {
-        if (lotto.contains(bonus)) {
-            throw new IllegalArgumentException("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
-        }
+        return retryUntilSuccess(() -> new WinningLotto(
+                new Lotto(new LottoNumberParser().parse(readWinningNumbers())), LottoNumber.of(readBonusNumber())));
     }
 
     private static <T> T retryUntilSuccess(Supplier<T> action) {
