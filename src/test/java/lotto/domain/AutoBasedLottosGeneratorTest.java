@@ -7,11 +7,11 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class AutoBasedLottoGeneratorTest {
+class AutoBasedLottosGeneratorTest {
 
     @Test
     void generate_지정개수_생성() {
-        assertThat(new AutoBasedLottoGenerator(new LottoCount(5)).generate().size())
+        assertThat(new AutoBasedLottosGenerator(new LottoCount(5)).generate().size())
                 .isEqualTo(5);
     }
 }

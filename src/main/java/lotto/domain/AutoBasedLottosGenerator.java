@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class AutoBasedLottoGenerator implements LottosGenerator {
+public class AutoBasedLottosGenerator implements LottosGenerator {
     private static final int LOTTO_NUMBER_MIN = 1;
     private static final int LOTTO_NUMBER_MAX = 45;
     private static final int LOTTO_PICK_SIZE = 6;
@@ -13,7 +13,7 @@ public class AutoBasedLottoGenerator implements LottosGenerator {
     private final List<LottoNumber> numbers;
     private final LottoCount count;
 
-    public AutoBasedLottoGenerator(LottoCount count) {
+    public AutoBasedLottosGenerator(LottoCount count) {
         this.count = count;
         this.numbers = IntStream.rangeClosed(LOTTO_NUMBER_MIN, LOTTO_NUMBER_MAX)
                 .mapToObj(LottoNumber::of)

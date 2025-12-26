@@ -8,11 +8,11 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class ManualBasedLottoGeneratorTest {
+class ManualBasedLottosGeneratorTest {
 
     @Test
     void generate_문자열목록_생성() {
-        assertThat(new ManualBasedLottoGenerator(List.of("1, 2, 3, 4, 5, 6", "7, 8, 9, 10, 11, 12")).generate())
+        assertThat(new ManualBasedLottosGenerator(List.of("1, 2, 3, 4, 5, 6", "7, 8, 9, 10, 11, 12")).generate())
                 .isEqualTo(new Lottos(List.of(new Lotto(1, 2, 3, 4, 5, 6), new Lotto(7, 8, 9, 10, 11, 12))));
     }
 }

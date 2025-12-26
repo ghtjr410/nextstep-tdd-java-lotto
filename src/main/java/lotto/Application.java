@@ -5,9 +5,9 @@ import static lotto.view.ResultView.*;
 
 import java.util.function.Supplier;
 import lotto.domain.*;
-import lotto.domain.AutoBasedLottoGenerator;
+import lotto.domain.AutoBasedLottosGenerator;
 import lotto.domain.LottoNumberParser;
-import lotto.domain.ManualBasedLottoGenerator;
+import lotto.domain.ManualBasedLottosGenerator;
 
 public class Application {
     public static void main(String[] args) {
@@ -45,11 +45,11 @@ public class Application {
 
     private static Lottos createManualLottos(LottoCount manualCount) {
         return retryUntilSuccess(
-                () -> new ManualBasedLottoGenerator(readManualLottoNumbers(manualCount.value())).generate());
+                () -> new ManualBasedLottosGenerator(readManualLottoNumbers(manualCount.value())).generate());
     }
 
     private static Lottos createAutoLottos(LottoCount autoCount) {
-        return new AutoBasedLottoGenerator(autoCount).generate();
+        return new AutoBasedLottosGenerator(autoCount).generate();
     }
 
     private static WinningLotto createWinningLotto() {

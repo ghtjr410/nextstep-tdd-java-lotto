@@ -2,15 +2,15 @@ package lotto.domain;
 
 import java.util.List;
 
-public class ManualBasedLottoGenerator implements LottosGenerator {
+public class ManualBasedLottosGenerator implements LottosGenerator {
     private final List<String> manualInputs;
     private final LottoNumberParser parser;
 
-    public ManualBasedLottoGenerator(List<String> manualInputs) {
+    public ManualBasedLottosGenerator(List<String> manualInputs) {
         this(manualInputs, new LottoNumberParser());
     }
 
-    private ManualBasedLottoGenerator(List<String> manualInputs, LottoNumberParser parser) {
+    private ManualBasedLottosGenerator(List<String> manualInputs, LottoNumberParser parser) {
         this.manualInputs = manualInputs;
         this.parser = parser;
     }
