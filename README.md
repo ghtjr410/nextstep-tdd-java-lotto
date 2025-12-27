@@ -4,7 +4,7 @@
 - **[1단계 - 문자열 계산기](./docs/01-string-calculator.md)**
 - **[2단계 - 로또(자동)](./docs/02-lotto-auto.md)**
 - **[3단계 - 로또(2등)](./docs/03-lotto-rank-second.md)**
-- **[4단계 - 로또(수동)]()**
+- **[4단계 - 로또(수동)](./docs/04-lotto-manual.md)**
 ## 진행 방법
 * 로또 요구사항을 파악한다.
 * 요구사항에 대한 구현을 완료한 후 자신의 github 아이디에 해당하는 브랜치에 Pull Request(이하 PR)를 통해 코드 리뷰 요청을 한다.

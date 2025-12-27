@@ -1,38 +1,66 @@
 package lotto;
 
+import static lotto.view.InputView.*;
+import static lotto.view.ResultView.*;
+
 import java.util.List;
+import java.util.function.Supplier;
 import lotto.domain.*;
-import lotto.utils.AutoBasedLottoGenerator;
-import lotto.utils.LottoNumberParser;
-import lotto.view.InputView;
-import lotto.view.ResultView;
+import lotto.domain.LottoNumberParser;
 
 public class Application {
     public static void main(String[] args) {
-        LottoPurchaseAmount purchaseAmount = getPurchaseAmount();
-        PurchasedLottos purchased = new PurchasedLottos(generateLottos(purchaseAmount));
+        LottoPurchaseAmount purchaseAmount = createPurchaseAmount();
+        Lottos purchased = purchaseLottos(purchaseAmount);
 
-        ResultView.printPurchaseCount(purchased);
-        ResultView.printPurchasedLottos(purchased);
+        printPurchasedLottos(purchased);
 
-        LottoResult result = purchased.result(getWinningLotto());
+        LottoResult result = purchased.result(createWinningLotto());
 
-        ResultView.printResult(result, purchaseAmount);
+        printResult(result, purchaseAmount);
     }
 
-    private static LottoPurchaseAmount getPurchaseAmount() {
-        return new LottoPurchaseAmount(InputView.readPurchaseAmount());
+    private static LottoPurchaseAmount createPurchaseAmount() {
+        return retryUntilSuccess(() -> new LottoPurchaseAmount(readPurchaseAmount()));
     }
 
-    private static List<Lotto> generateLottos(LottoPurchaseAmount purchaseAmount) {
-        return new AutoBasedLottoGenerator().generate(purchaseAmount.lottoCount());
+    private static Lottos purchaseLottos(LottoPurchaseAmount purchaseAmount) {
+        LottoCount totalCount = purchaseAmount.lottoCount();
+        LottoCount manualCount = createManualLottoCount(totalCount);
+        LottoCount autoCount = totalCount.subtract(manualCount);
+
+        printPurchaseCount(manualCount, autoCount);
+
+        return createLottos(purchaseAmount, manualCount);
     }
 
-    private static WinningLotto getWinningLotto() {
-        String winningNumbers = InputView.readWinningNumbers();
-        String bonusNumber = InputView.readBonusNumber();
+    private static Lottos createLottos(LottoPurchaseAmount purchaseAmount, LottoCount manualCount) {
+        return retryUntilSuccess(() -> {
+            List<String> manualInputs = readManualLottoNumbers(manualCount.value());
+            return new CombinedLottosGenerator(purchaseAmount, manualInputs).generate();
+        });
+    }
 
-        List<LottoNumber> numbers = new LottoNumberParser().parse(winningNumbers);
-        return new WinningLotto(numbers, bonusNumber);
+    private static LottoCount createManualLottoCount(LottoCount totalCount) {
+        return retryUntilSuccess(() -> {
+            LottoCount manualCount = new LottoCount(readManualLottoCount());
+            totalCount.validateSubtractable(manualCount);
+            return manualCount;
+        });
+    }
+
+    private static WinningLotto createWinningLotto() {
+        return retryUntilSuccess(() -> new WinningLotto(
+                new Lotto(new LottoNumberParser().parse(readWinningNumbers())), LottoNumber.of(readBonusNumber())));
+    }
+
+    private static <T> T retryUntilSuccess(Supplier<T> action) {
+        while (true) {
+            try {
+                return action.get();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

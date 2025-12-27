@@ -1,14 +1,15 @@
 package lotto.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public record PurchasedLottos(List<Lotto> values) {
+public record Lottos(List<Lotto> values) {
 
-    public PurchasedLottos(Lotto... inputs) {
+    public Lottos(Lotto... inputs) {
         this(List.of(inputs));
     }
 
-    public PurchasedLottos {
+    public Lottos {
         validateNotBlank(values);
     }
 
@@ -16,6 +17,14 @@ public record PurchasedLottos(List<Lotto> values) {
         if (inputs == null || inputs.isEmpty()) {
             throw new IllegalArgumentException("구매한 로또는 1개 이상이어야 합니다.");
         }
+    }
+
+    public Lottos merge(Lottos other) {
+        List<Lotto> merged = new ArrayList<>(this.values);
+
+        merged.addAll(other.values);
+
+        return new Lottos(merged);
     }
 
     public LottoResult result(WinningLotto winningLotto) {
@@ -28,11 +37,7 @@ public record PurchasedLottos(List<Lotto> values) {
         return result;
     }
 
-    public String purchaseCountForDisplay() {
-        return "%d개를 구매했습니다.".formatted(size());
-    }
-
-    private int size() {
-        return values.size();
+    public int size() {
+        return values().size();
     }
 }

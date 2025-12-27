@@ -1,8 +1,7 @@
-package lotto.utils;
+package lotto.domain;
 
 import java.util.Arrays;
 import java.util.List;
-import lotto.domain.LottoNumber;
 
 public class LottoNumberParser {
     private static final String DELIMITER = ",";

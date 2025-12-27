@@ -10,25 +10,28 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class PurchasedLottosTest {
+class LottosTest {
 
     @Test
     void 생성자_정상입력_생성성공() {
-        assertThatCode(() -> new PurchasedLottos(new Lotto(1, 2, 3, 4, 5, 6))).doesNotThrowAnyException();
+        assertThatCode(() -> new Lottos(new Lotto(1, 2, 3, 4, 5, 6))).doesNotThrowAnyException();
     }
 
     @ParameterizedTest(name = "입력:{0}")
     @NullAndEmptySource
     void 생성자_빈값입력_예외발생(List<Lotto> inputs) {
-        assertThatThrownBy(() -> new PurchasedLottos(inputs))
+        assertThatThrownBy(() -> new Lottos(inputs))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("구매한 로또는 1개 이상이어야 합니다.");
     }
 
     @Test
-    void purchaseCountForDisplay_구매개수_표시() {
-        PurchasedLottos purchased = new PurchasedLottos(new Lotto(1, 2, 3, 4, 5, 6));
+    void merge_두_로또_목록을_합친다() {
+        Lottos first = new Lottos(new Lotto(1, 2, 3, 4, 5, 6));
+        Lottos second = new Lottos(new Lotto(7, 8, 9, 10, 11, 12));
 
-        assertThat(purchased.purchaseCountForDisplay()).isEqualTo("1개를 구매했습니다.");
+        Lottos merged = first.merge(second);
+
+        assertThat(merged.size()).isEqualTo(2);
     }
 }
